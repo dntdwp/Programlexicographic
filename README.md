@@ -14,5 +14,5 @@ Functional Requirements:
 
 Batasan:
 100 kata dalam kamus
-Panjang kata maksimal 50 karakter
-Panjang prefix input maksimal 50 karakter
+Panjang kata maksimal 31 karakter
+Panjang prefix input maksimal 31 karakter
