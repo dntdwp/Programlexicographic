@@ -8,8 +8,8 @@ Functional Requirements:
 2. Kata-kata tersebut disimpan ke dalam BST secara otomatis terurut
 3. User dapat mengetik prefix lalu tekan Enter untuk mendapatkan suggestion
 4. Aplikasi menampilkan semua kata yang awalannya cocok dengan prefix
-5. Suggestion ditampilkan secara terurut alfabetis
-6. User dapat memilih suggestion dari output yang ada untuk dijadikan satu kalimat
+5. Suggestion ditampilkan secara terurut alfabetis (suggestion disimpan didalam Queue)
+6. User dapat memilih suggestion dari output yang ada untuk dijadikan satu kalimat (suggestion yang dipilih oleh user disimpan didalam Queue)
 7. User dapat melakukan pencarian berkali-kali dan menyusun kalimat tanpa restart program
 
 Batasan:
