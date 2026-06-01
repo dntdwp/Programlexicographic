@@ -5,16 +5,16 @@
 #include "binTree.h"
 #include "boolean2.h"
 
-BinTree Insert(BinTree P, char X) {
+BinTree InsertT(BinTree P, char X) {
 
-    if (IsEmpty(P)) {
-        return Alokasi(X);
+    if (IsEmptyT(P)) {
+        return AlokasiTree(X);
     } else {
         
         if (Left(P) == Nil) {
-            Left(P) = Alokasi(X);
+            Left(P) = AlokasiTree(X);
         } else if (Right(P) == Nil) {
-            Right(P) = Alokasi(X);
+            Right(P) = AlokasiTree(X);
         } else {
             // Jika kedua cabang penuh, rekursif masukkan ke kiri
             Left(P) = Insert(Left(P), X);
@@ -23,8 +23,8 @@ BinTree Insert(BinTree P, char X) {
     }
 }
 
-address Alokasi(infotype X){
-    address P = (address)malloc(sizeof(ElmtNode));
+addressT AlokasiTree(infotype X){
+    addressT P = (addressT)malloc(sizeof(ElmtNode));
     if (P != Nil) {
         Info(P) = X;
         Left(P) = Nil;
@@ -34,7 +34,7 @@ address Alokasi(infotype X){
     return P;
 }
 
-boolean IsEmpty(BinTree P){
+boolean IsEmptyT(BinTree P){
     return (P == Nil);
 }
 
@@ -57,7 +57,7 @@ BinTree GetRight(BinTree P){
 /* ******** KONSTRUKTOR ************ */
 
 BinTree Tree(infotype X, BinTree L, BinTree R){
-    address P = Alokasi(X);
+    addressT P = AlokasiTree(X);
     if (P != Nil) {
         Left(P) = L;
         Right(P) = R;
@@ -77,7 +77,7 @@ void BuildTree(BinTree *P) {
     if (X == '.') {
         *P = Nil;
     } else {
-        *P = Alokasi(X);
+        *P = AlokasiTree(X);
         if (*P != Nil) {
             printf("--- Masuk ke Subpohon KIRI dari '%c' ---\n", X);
             BuildTree(&Left(*P));
@@ -109,7 +109,7 @@ boolean IsBiner(BinTree P) {
 
 void Preorder(BinTree P) {
     
-    if (!IsEmpty(P)) {
+    if (!IsEmptyT(P)) {
         printf("%c ", Info(P));   // Proses Akar
         Preorder(Left(P));        // Jelajahi Subpohon Kiri
         Preorder(Right(P));       // Jelajahi Subpohon Kanan
@@ -117,7 +117,7 @@ void Preorder(BinTree P) {
 }
 
 void Inorder(BinTree P) {
-    if (!IsEmpty(P)) {
+    if (!IsEmptyT(P)) {
         Inorder(Left(P));         // Jelajahi Subpohon Kiri
         printf("%c ", Info(P));   // Proses Akar
         Inorder(Right(P));        // Jelajahi Subpohon Kanan
@@ -126,7 +126,7 @@ void Inorder(BinTree P) {
 
 void Postorder(BinTree P) {
 
-    if (!IsEmpty(P)) {
+    if (!IsEmptyT(P)) {
         Postorder(Left(P));        // Jelajahi Subpohon Kiri
         Postorder(Right(P));       // Jelajahi Subpohon Kanan
         printf("%c ", Info(P));    // Proses Akar
@@ -137,7 +137,7 @@ void PrintTree(BinTree P, char tab[]) {
 
     char tempTab[255];
 
-    if (!IsEmpty(P)) {
+    if (!IsEmptyT(P)) {
         // Cetak identasi saat ini diikuti data dari akar/node
         printf("%s%c\n", tab, Info(P));
 
@@ -154,7 +154,7 @@ void PrintTree(BinTree P, char tab[]) {
 
 boolean Search(BinTree P, infotype X) {
     /* Mengirimkan true jika ada node dari P yang bernilai X */
-    if (IsEmpty(P)) {
+    if (IsEmptyT(P)) {
         return FALSE;
     }
     if (Info(P) == X) {
@@ -168,7 +168,7 @@ boolean Search(BinTree P, infotype X) {
 
 int NbElmt(BinTree P) {
 
-    if (IsEmpty(P)) {
+    if (IsEmptyT(P)) {
         return 0;
     } else {
         // Total elemen = 1 (akar) + elemen di kiri + elemen di kanan
@@ -178,7 +178,7 @@ int NbElmt(BinTree P) {
 
 int NbDaun(BinTree P) {
     /* Mengirimkan banyaknya daun */
-    if (IsEmpty(P)) {
+    if (IsEmptyT(P)) {
         return 0;
     }
     // Jika sebuah node tidak punya anak kiri DAN tidak punya anak kanan, berarti dia daun
@@ -191,7 +191,7 @@ int NbDaun(BinTree P) {
 
 boolean IsSkewLeft(BinTree P) {
     /* Mengirimkan true jika P adalah pohon condong kiri (semua node hanya punya anak kiri) */
-    if (IsEmpty(P)) {
+    if (IsEmptyT(P)) {
         return TRUE; // Pohon kosong dianggap condong kiri secara default
     }
     if (Right(P) != Nil) {
@@ -203,7 +203,7 @@ boolean IsSkewLeft(BinTree P) {
 
 boolean IsSkewRight(BinTree P) {
     /* Mengirimkan true jika P adalah pohon condong kanan (semua node hanya punya anak kanan) */
-    if (IsEmpty(P)) {
+    if (IsEmptyT(P)) {
         return TRUE; // Pohon kosong dianggap condong kanan secara default
     }
     if (Left(P) != Nil) {
@@ -215,7 +215,7 @@ boolean IsSkewRight(BinTree P) {
 
 int Level(BinTree P, infotype X) {
 
-    if (IsEmpty(P)) {
+    if (IsEmptyT(P)) {
         return 0;
     }
 
@@ -242,8 +242,8 @@ int Level(BinTree P, infotype X) {
 
 void AddDaunTerkiri(BinTree *P, infotype X) {
 
-    if (IsEmpty(*P)) {
-        *P = Alokasi(X);
+    if (IsEmptyT(*P)) {
+        *P = AlokasiTree(X);
     } else {
         AddDaunTerkiri(&Left(*P), X);
     }
@@ -251,7 +251,7 @@ void AddDaunTerkiri(BinTree *P, infotype X) {
 
 void AddDaun(BinTree *P, infotype X, infotype Y, boolean InputKiri) {
 
-    if (IsEmpty(*P)) {
+    if (IsEmptyT(*P)) {
         return; // Jika pohon kosong, tidak ada parent X yang bisa dicari
     }
 
@@ -259,13 +259,13 @@ void AddDaun(BinTree *P, infotype X, infotype Y, boolean InputKiri) {
     if (Info(*P) == X) {
         if (InputKiri) {
             if (Left(*P) == Nil) {
-                Left(*P) = Alokasi(Y);
+                Left(*P) = AlokasiTree(Y);
             } else {
                 printf("Gagal: Anak kiri dari %c sudah terisi!\n", X);
             }
         } else {
             if (Right(*P) == Nil) {
-                Right(*P) = Alokasi(Y);
+                Right(*P) = AlokasiTree(Y);
             } else {
                 printf("Gagal: Anak kanan dari %c sudah terisi!\n", X);
             }
@@ -280,14 +280,14 @@ void AddDaun(BinTree *P, infotype X, infotype Y, boolean InputKiri) {
 
 void DelDaunTerkiri(BinTree *P, infotype *X) {
 
-    if (IsEmpty(*P)) {
+    if (IsEmptyT(*P)) {
         return;
     }
 
     // Kondisi dasar: Jika ini adalah daun (tidak punya anak sama sekali)
     if (Left(*P) == Nil && Right(*P) == Nil) {
         *X = Info(*P); // Ambil infonya sebelum dihapus
-        free(*P);      // Dealokasi memori
+        free(*P);      // DeAlokasiTree memori
         *P = Nil;      // Set pointer parent-nya menjadi Nil
         return;
     }
@@ -304,7 +304,7 @@ void DelDaunTerkiri(BinTree *P, infotype *X) {
 void DelDaun(BinTree *P, infotype X) {
     /* I.S   : P tidak kosong; X adalah salah satu daun */
     /* F.S   : Node X dihapus dari P jika terbukti dia adalah daun */
-    if (IsEmpty(*P)) {
+    if (IsEmptyT(*P)) {
         return;
     }
 
@@ -327,13 +327,13 @@ void DelDaun(BinTree *P, infotype X) {
 ListOfNode MakeListDaun(BinTree P) {
     /* Jika P adalah pohon kosong, maka menghasilkan list kosong (Nil) */
     /* Jika P bukan pohon kosong, menghasilkan list yang elemennya adalah semua daun pohon P */
-    if (IsEmpty(P)) {
+    if (IsEmptyT(P)) {
         return Nil;
     }
 
     // Jika ketemu daun, buat node list baru dengan cabang kiri dan kanan diset Nil
     if (Left(P) == Nil && Right(P) == Nil) {
-        address nodeBaru = Alokasi(Info(P));
+        addressT nodeBaru = AlokasiTree(Info(P));
         return nodeBaru; 
     }
 
@@ -345,7 +345,7 @@ ListOfNode MakeListDaun(BinTree P) {
     if (leftList == Nil) {
         return rightList;
     } else {
-        address temp = leftList;
+        addressT temp = leftList;
         while (Right(temp) != Nil) { // Geser sampai ke ujung "list" kiri
             temp = Right(temp);
         }
@@ -358,12 +358,12 @@ ListOfNode MakeListPreoder(BinTree P) {
     /* Jika P adalah pohon kosong, maka menghasilkan list kosong (Nil) */
     /* Jika P bukan pohon kosong, menghasilkan list yang elemennya adalah semua elemen pohon P */
     /* dengan urutan Preorder (Akar -> Kiri -> Kanan) */
-    if (IsEmpty(P)) {
+    if (IsEmptyT(P)) {
         return Nil;
     }
 
-    // 1. Alokasi untuk Akar saat ini
-    address akarList = Alokasi(Info(P));
+    // 1. AlokasiTree untuk Akar saat ini
+    addressT akarList = AlokasiTree(Info(P));
     
     // 2. Rekursif buat list dari subpohon kiri dan kanan
     ListOfNode leftList = MakeListPreoder(Left(P));
@@ -373,7 +373,7 @@ ListOfNode MakeListPreoder(BinTree P) {
     Right(akarList) = leftList;
     
     // Cari ujung dari list kiri untuk menyambungkan list kanan
-    address temp = akarList;
+    addressT temp = akarList;
     while (Right(temp) != Nil) {
         temp = Right(temp);
     }
@@ -385,13 +385,13 @@ ListOfNode MakeListPreoder(BinTree P) {
 ListOfNode MakeListLevel(BinTree P, int N) {
     /* Jika P adalah pohon kosong, maka menghasilkan list kosong */
     /* Jika P bukan pohon kosong, menghasilkan list yang elemennya adalah semua elemen pohon P yang levelnya N */
-    if (IsEmpty(P) || N < 1) {
+    if (IsEmptyT(P) || N < 1) {
         return Nil;
     }
 
     // Kondisi dasar: Jika sudah mencapai level target (N == 1 karena akar dimulai dari level 1)
     if (N == 1) {
-        return Alokasi(Info(P));
+        return AlokasiTree(Info(P));
     }
 
     // Rekursif cari ke level bawahnya (N dikurangi 1)
@@ -402,7 +402,7 @@ ListOfNode MakeListLevel(BinTree P, int N) {
     if (leftList == Nil) {
         return rightList;
     } else {
-        address temp = leftList;
+        addressT temp = leftList;
         while (Right(temp) != Nil) {
             temp = Right(temp);
         }
@@ -420,7 +420,7 @@ BinTree BuildBalanceTree(int n) {
     } else {
         infotype X;
         int nL, nR;
-        address P;
+        addressT P;
 
         // 1. Hitung pembagian node agar seimbang
         nL = n / 2;       // Jumlah node untuk subpohon kiri
@@ -430,8 +430,8 @@ BinTree BuildBalanceTree(int n) {
         printf("Masukkan nilai node untuk Balance Tree: ");
         scanf(" %c", &X);
 
-        // 3. Alokasikan akar saat ini
-        P = Alokasi(X);
+        // 3. AlokasiTreekan akar saat ini
+        P = AlokasiTree(X);
         if (P != Nil) {
             // 4. Bangun subpohon kiri dan kanan secara rekursif sesuai jatah nL dan nR
             Left(P) = BuildBalanceTree(nL);
@@ -446,7 +446,7 @@ BinTree BuildBalanceTree(int n) {
 
 boolean BSearch(BinTree P, infotype X) {
     /* Mengirimkan true jika ada node dari P yang bernilai X pada BST */
-    if (IsEmpty(P)) {
+    if (IsEmptyT(P)) {
         return FALSE;
     }
     if (Info(P) == X) {
@@ -464,8 +464,8 @@ boolean BSearch(BinTree P, infotype X) {
 BinTree InsSearch(BinTree *P, infotype X) {
     /* Menghasilkan sebuah pohon Binary Search Tree P dengan tambahan X. */
     /* Belum ada simpul P yang bernilai X. */
-    if (IsEmpty(*P)) {
-        *P = Alokasi(X);
+    if (IsEmptyT(*P)) {
+        *P = AlokasiTree(X);
         return *P;
     }
     
@@ -480,7 +480,7 @@ BinTree InsSearch(BinTree *P, infotype X) {
 
 void DelBTree(BinTree *P, infotype X) {
 
-    if (IsEmpty(*P)) {
+    if (IsEmptyT(*P)) {
         return;
     }
 
@@ -492,7 +492,7 @@ void DelBTree(BinTree *P, infotype X) {
     } 
     // 2. Jika node X sudah ditemukan (Info(*P) == X)
     else {
-        address temp;
+        addressT temp;
         
         // Kasus 1: Node adalah daun atau hanya punya 1 anak (anak kanan)
         if (Left(*P) == Nil) {
@@ -509,7 +509,7 @@ void DelBTree(BinTree *P, infotype X) {
         // Kasus 3: Node punya 2 anak (Biner murni)
         else {
             // Cari kandidat pengganti dari subpohon kanan yang paling kiri (nilai terkecil di kanan)
-            address successor = Right(*P);
+            addressT successor = Right(*P);
             while (Left(successor) != Nil) {
                 successor = Left(successor);
             }
@@ -526,7 +526,7 @@ void DelBTree(BinTree *P, infotype X) {
 /*Huffman*/
 
 void CetakKodeHuffman(BinTree root, int jalur[], int kedalaman) {
-    if (IsEmpty(root)) return;
+    if (IsEmptyT(root)) return;
 
     // Jika belok KIRI, catat '0' di array jalur
     if (Left(root) != Nil) {

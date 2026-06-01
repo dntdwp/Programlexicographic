@@ -1,11 +1,11 @@
-#include "boolean.h" 
+#include "boolean2.h"
 #include "queue.h"
 #include <stdlib.h>
 #include <stdio.h> 
 
 // Front untuk tempat keluar data (Delete), dan Rear untuk tempat masuk data (Insert).
 
-boolean IsEmpty(queue Q) {
+boolean IsEmptyQ(queue Q) {
     // Antrian dianggap kosong jika Front dan Rear sama-sama menunjuk ke NULL
     if (Front(Q) == NULL && Rear(Q) == NULL) {
         return TRUE;
@@ -30,9 +30,9 @@ void setRear(queue *Q) {
     Rear(*Q) = NULL;
 }
 
-address Alokasi(infotype X) {
+addressQ Alokasi(infotype X) {
     // Meminta ruang memori untuk satu node list antrian
-    address P = (address)malloc(sizeof(ElmtList));
+    addressQ P = (addressQ)malloc(sizeof(ElmtList));
     if (P != NULL) {
         Info(P) = X;      // Isi node dengan karakter X
         Next(P) = NULL;   // Pointer next default ke NULL
@@ -40,7 +40,7 @@ address Alokasi(infotype X) {
     return P;
 }
 
-void Dealokasi(address *P) {
+void Dealokasi(addressQ *P) {
     // Bebaskan memori
     free(*P);
     // Biasakan mengosongkan pointer setelah free agar tidak menjadi "dangling pointer"
@@ -49,10 +49,10 @@ void Dealokasi(address *P) {
 
 void Insert(queue *Q, infotype data) {
     // 1. Buat node baru untuk data yang akan antre
-    address P = Alokasi(data);
+    addressQ P = Alokasi(data);
     
     if (P != NULL) { // Pastikan memori tersedia
-        if (IsEmpty(*Q) == TRUE) {
+        if (IsEmptyQ(*Q) == TRUE) {
             // KASUS 1: Antrian Kosong. 
             // Orang pertama yang antre akan menjadi Front sekaligus Rear.
             Front(*Q) = P;
@@ -70,9 +70,9 @@ void Insert(queue *Q, infotype data) {
 }
 
 void Delete(queue *Q, infotype *data) {
-    address P; // Variabel sementara untuk memegang node yang akan dihapus
+    addressQ P; // Variabel sementara untuk memegang node yang akan dihapus
     
-    if (IsEmpty(*Q) == FALSE) {
+    if (IsEmptyQ(*Q) == FALSE) {
         // 1. Pegang elemen paling depan
         P = Front(*Q);
         
@@ -97,9 +97,9 @@ void Delete(queue *Q, infotype *data) {
 
 void PrintQueue(queue Q) {
     // Penelusuran selalu dimulai dari antrian terdepan (Front)
-    address P = Front(Q); 
+    addressQ P = Front(Q); 
     
-    if (IsEmpty(Q) == TRUE) {
+    if (IsEmptyQ(Q) == TRUE) {
         printf("Queue Kosong\n");
     } else {
         printf("[ ");

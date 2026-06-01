@@ -16,26 +16,26 @@
 #define Count(P) (P)->count
 
 typedef char infotype;
-typedef struct tElmtNode *address;
+typedef struct tElmtNode *addressT;
 typedef struct tElmtNode {
 			infotype info;
-			address left;
-			address right;
+			addressT left;
+			addressT right;
 			int count;
 		} ElmtNode;
 
-typedef address BinTree;
-typedef address ListOfNode; /* List  yg elemennya adalah ElmtNode */ 
+typedef addressT BinTree;
+typedef addressT ListOfNode; /* List  yg elemennya adalah ElmtNode */ 
 
 BinTree Insert(BinTree P, char X);
 
-address Alokasi(infotype X);
-/* Menghasilkan  address hasil alokasi sebuah  Node 	*/
-/* Jika alokasi berhasil, maka  address tidak NIl   	*/
+addressT AlokasiTree(infotype X);
+/* Menghasilkan  address hasil AlokasiTree sebuah  Node 	*/
+/* Jika AlokasiTree berhasil, maka  address tidak NIl   	*/
 /* Info(P)=X, Left(P)=Nil,Right(P)=Nil, dan Count(P)=0 	*/
-/* Jika alokasi gagal mengembalikan Nil  		*/
+/* Jika AlokasiTree gagal mengembalikan Nil  		*/
 
-boolean IsEmpty(BinTree P);
+boolean IsEmptyT(BinTree P);
 /* Mengembalikan true jika pohon kosong */
 
 void CreateEmpty(BinTree *P);
@@ -52,18 +52,18 @@ BinTree GetRight(BinTree P);
 
 /* ******** KONSTRUKTOR ************ */
 BinTree Tree(infotype X, BinTree L, BinTree R);
-/* Menghasilkan sebuah pohon Biner dari A, L, dan R jika Alokasi berhasil */
-/* Menghasilkan pohon kosong Nil, jika alokasi gagal 			  */
+/* Menghasilkan sebuah pohon Biner dari A, L, dan R jika AlokasiTree berhasil */
+/* Menghasilkan pohon kosong Nil, jika AlokasiTree gagal 			  */
 
 void MakeTree(infotype X, BinTree L, BinTree R, BinTree *P);
 /* I.S   : Sembarang 	*/
-/* F.S   : Menghasilkan sebuah pohon biner P dari A,L,dan R, jika alokasi */
-/*         berhasil; Menghasilkan pohon P yang kosong jika alokasi gagal  */
+/* F.S   : Menghasilkan sebuah pohon biner P dari A,L,dan R, jika AlokasiTree */
+/*         berhasil; Menghasilkan pohon P yang kosong jika AlokasiTree gagal  */
 
 void BuildTree(BinTree *P);
 /* Membentuk sebuah pohon biner P dari pita karakter yang dibaca 	*/
 /* I.S   : Pita berisi 'kostanta' pohon dalam bentuk prefiks, memory 	*/
-/*         pasti cukup, alokasi pasti berhasil 				*/
+/*         pasti cukup, AlokasiTree pasti berhasil 				*/
 /* F.S   : P dibentuk dari Ekspresi dalam Pita   			*/
 
 /* ********* PREDIKAT PENTING  **************  */
@@ -136,7 +136,7 @@ void AddDaun(BinTree *P, infotype X, infotype Y, boolean InputKiri);
 
 void DelDaunTerkiri(BinTree *P, infotype *X);
 /* I.S   : P tidak kosong 	*/
-/* F.S   : P dihapus   daun terkirinya, dan didealokasi dengan X adalah  */
+/* F.S   : P dihapus   daun terkirinya, dan dideAlokasiTree dengan X adalah  */
 /*         info yang semula disimpan pada daun terkiri yang dihapus      */
 
 void DelDaun(BinTree *P, infotype X);
@@ -148,22 +148,22 @@ void DelDaun(BinTree *P, infotype X);
 ListOfNode MakeListDaun(BinTree  P);
 /* Jika P adalah pohon kosong, maka menghasilkan list kosong   */
 /* Jika P bukan pohon kosong, menghasilkan list yang elemennya  */
-/* adalah semua daun pohon P; Jika semua alokasi berhasil.      */
-/* Menghasilkan list kosong jika ada alokasi yang gagal 	*/
+/* adalah semua daun pohon P; Jika semua AlokasiTree berhasil.      */
+/* Menghasilkan list kosong jika ada AlokasiTree yang gagal 	*/
 
 ListOfNode MakeListPreoder(BinTree  P);
 /* Jika P adalah pohon kosong, maka menghasilkan list kosong     */
 /* Jika P bukan pohon kosong, menghasilkan list yang elemennya   */
 /* adalah semua elemen pohon P dengan urutan Preorder,  jk semua */
-/* alokasi berhasil 						 */
-/* Menghasilkan list kosong jika ada alokasi yang gagal 	 */
+/* AlokasiTree berhasil 						 */
+/* Menghasilkan list kosong jika ada AlokasiTree yang gagal 	 */
 
 
 ListOfNode MakeListLevel(BinTree  P, int N);
 /* Jika P adalah pohon kosong, maka menghasilkan list kosong    */
 /* Jika P bukan pohon kosong, menghasilkan list yang elemennya  */
 /* adalah semua elemen pohon P yang levelnya N; Jika semua      */
-/* alokasi berhasil. Menghasilkan list kosong jika ada alokasi  */
+/* AlokasiTree berhasil. Menghasilkan list kosong jika ada AlokasiTree  */
 /* yang gagal 	*/
 
 /* *********** MEMBENTUK BALANCE TREE ************* */
