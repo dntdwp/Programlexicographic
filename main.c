@@ -18,6 +18,8 @@ int main(){
 		if (pilihan == 1){
 			printf("\nMasukan Prefix yang ingin diinput: ");
 			scanf("%s", prefix);
+			
+			
 		}
 		
 	}while (pilihan != 0);

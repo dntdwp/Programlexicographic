@@ -18,7 +18,7 @@
 typedef char infotype;
 typedef struct tElmtNode *addressT;
 typedef struct tElmtNode {
-			infotype info;
+			infotype info[31];
 			addressT left;
 			addressT right;
 			int count;
@@ -29,7 +29,7 @@ typedef addressT ListOfNode; /* List  yg elemennya adalah ElmtNode */
 
 BinTree Insert(BinTree P, char X);
 
-addressT AlokasiTree(infotype X);
+addressT AlokasiTree(infotype X[31]);
 /* Menghasilkan  address hasil AlokasiTree sebuah  Node 	*/
 /* Jika AlokasiTree berhasil, maka  address tidak NIl   	*/
 /* Info(P)=X, Left(P)=Nil,Right(P)=Nil, dan Count(P)=0 	*/
@@ -51,11 +51,11 @@ BinTree GetRight(BinTree P);
 /* Mengirimkan anak kanan pohon biner P  */
 
 /* ******** KONSTRUKTOR ************ */
-BinTree Tree(infotype X, BinTree L, BinTree R);
+BinTree Tree(infotype X[31], BinTree L, BinTree R);
 /* Menghasilkan sebuah pohon Biner dari A, L, dan R jika AlokasiTree berhasil */
 /* Menghasilkan pohon kosong Nil, jika AlokasiTree gagal 			  */
 
-void MakeTree(infotype X, BinTree L, BinTree R, BinTree *P);
+void MakeTree(infotype X[31], BinTree L, BinTree R, BinTree *P);
 /* I.S   : Sembarang 	*/
 /* F.S   : Menghasilkan sebuah pohon biner P dari A,L,dan R, jika AlokasiTree */
 /*         berhasil; Menghasilkan pohon P yang kosong jika AlokasiTree gagal  */
@@ -103,7 +103,7 @@ void PrintTree(BinTree P, char tab[]);
 
 
 /* ************ SEARCH **************** */
-boolean Search(BinTree P, infotype X);
+boolean Search(BinTree P, infotype X[31]);
 /* Mengirimkan true jika ada node dari P yang bernilai X */
 
 /* ************* FUNGSI LAIN *************** */
@@ -119,27 +119,27 @@ boolean IsSkewLeft (BinTree P);
 boolean IsSkewRight(BinTree P);
 /* Mengirimkan true jika P adalah pohon condong kanan */
 
-int Level(BinTree P, infotype X);
+int Level(BinTree P, infotype X[31]);
 /* Mengirinkan level dari Node X yang merupakan salah satu simpul */
 /* dari pohon biner P. Akar(P) level-nya adalah 1. Pohon P  tidak */
 /* kosong 	*/
 
 /* ********* OPERASI LAIN ********* */
-void AddDaunTerkiri(BinTree *P, infotype X);
+void AddDaunTerkiri(BinTree *P, infotype X[31]);
 /* I.S   : P boleh kosong 	*/
 /* F.S   : P bertambah simpulnya, dengan X sbg simpul daun terkiri */  		
 
-void AddDaun(BinTree *P, infotype X, infotype Y, boolean InputKiri);
+void AddDaun(BinTree *P, infotype X[31], infotype Y, boolean InputKiri);
 /* I.S   : P boleh kosong 	*/
 /* F.S   : P bertambah simpulnya, dengan Y sbg anak kiri X 		*/
 /*	   jika kiri); atau sebagai anak kanan X (jika Not Kiri)	*/
 
-void DelDaunTerkiri(BinTree *P, infotype *X);
+void DelDaunTerkiri(BinTree *P, infotype *X[31]);
 /* I.S   : P tidak kosong 	*/
 /* F.S   : P dihapus   daun terkirinya, dan dideAlokasiTree dengan X adalah  */
 /*         info yang semula disimpan pada daun terkiri yang dihapus      */
 
-void DelDaun(BinTree *P, infotype X);
+void DelDaun(BinTree *P, infotype X[31]);
 /* I.S   : P tidak kosong; X adalah salah  satu daun 	*/
 /* F.S   : X dihapus dari P    */
 
@@ -172,14 +172,14 @@ BinTree BuildBalanceTree(int n);
 /* node dibaca 							*/
 
 /* ************** TERHADAP BINARY SEARCH TREE *************** */
-boolean BSearch(BinTree P, infotype X);
+boolean BSearch(BinTree P, infotype X[31]);
 /* Mengirimkan true jika ada node dari P yang bernilai X   */
 
-BinTree InsSearch(BinTree *P, infotype X);
+BinTree InsSearch(BinTree *P, infotype X[31]);
 /* Menghasilkan sebuah pohon Binary Search Tree P dengan tambahan */
 /* X. Belum ada simpul P yang bernilai X 			  */
 
-void DelBTree(BinTree *P, infotype X);
+void DelBTree(BinTree *P, infotype X[31]);
 /* I.S  : Pohon P tidak kosong 					   */
 /* F.S  : Nilai yang dihapus pasti ada, sebuah node dengan nilai X */
 /*        dihapus 						   */
