@@ -26,7 +26,7 @@ BinTree InsertT(BinTree P, char X) {
 addressT AlokasiTree(infotype X[31]){
     addressT P = (addressT)malloc(sizeof(ElmtNode));
     if (P != Nil) {
-        Info(P) = X;
+        strcpy(Info(P), X);
         Left(P) = Nil;
         Right(P) = Nil;
         Count(P) = 0;
@@ -157,7 +157,7 @@ boolean Search(BinTree P, infotype X[31]) {
     if (IsEmptyT(P)) {
         return FALSE;
     }
-    if (Info(P) == X) {
+    if (strcmp(Info(P), X)) {
         return TRUE;
     }
     // Cari di subpohon kiri ATAU subpohon kanan
@@ -219,7 +219,7 @@ int Level(BinTree P, infotype X[31]) {
         return 0;
     }
 
-    if (Info(P) == X) {
+    if (strcmp(Info(P), X)) {
         return 1;
     }
     
@@ -278,7 +278,7 @@ void AddDaun(BinTree *P, infotype X[31], infotype Y, boolean InputKiri) {
     AddDaun(&Right(*P), X, Y, InputKiri);
 }
 
-void DelDaunTerkiri(BinTree *P, infotype *X) {
+void DelDaunTerkiri(BinTree *P, infotype *X[31]) {
 
     if (IsEmptyT(*P)) {
         return;
@@ -449,7 +449,7 @@ boolean BSearch(BinTree P, infotype X[31]) {
     if (IsEmptyT(P)) {
         return FALSE;
     }
-    if (Info(P) == X) {
+    if (strcmp(Info(P), X)) {
         return TRUE;
     }
     
@@ -515,7 +515,7 @@ void DelBTree(BinTree *P, infotype X[31]) {
             }
             
             // Salin nilai successor ke node yang ingin dihapus
-            Info(*P) = Info(successor);
+            strcpy(Info(*P), Info(successor));
             
             // Hapus node successor asli yang nilainya baru saja kita salin tadi
             DelBTree(&Right(*P), Info(successor));
