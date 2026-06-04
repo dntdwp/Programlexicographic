@@ -27,7 +27,7 @@ typedef struct tElmtNode {
 typedef addressT BinTree;
 typedef addressT ListOfNode; /* List  yg elemennya adalah ElmtNode */ 
 
-BinTree Insert(BinTree P, char X);
+BinTree InsertT(BinTree P, char X);
 
 addressT AlokasiTree(infotype X[31]);
 /* Menghasilkan  address hasil AlokasiTree sebuah  Node 	*/

@@ -15,7 +15,7 @@ typedef char infotype;
 typedef struct tElmtlist *addressQ; // address menjadi type data pointer yang menunjuk type data tElmtlist                //node
 typedef struct tElmtlist
 {
-	infotype info;
+	infotype info[31];
 	addressQ next;
 } ElmtList;
 
@@ -29,10 +29,10 @@ boolean IsEmptyQ(queue Q);
 void Initial(queue *Q);
 void setFront(queue *Q);
 void setRear(queue *Q);
-void Delete(queue *Q, infotype *data);
-void InsertQ(queue *Q, infotype data);
+void Delete(queue *Q, infotype *data[31]);
+void InsertQ(queue *Q, infotype data[31]);
 void PrintQueue(queue Q);
-addressQ Alokasi(infotype X);
+addressQ Alokasi(infotype X[31]);
 void Dealokasi(addressQ *P);
 
 #endif

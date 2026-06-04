@@ -17,7 +17,7 @@ BinTree InsertT(BinTree P, char X) {
             Right(P) = AlokasiTree(X);
         } else {
             // Jika kedua cabang penuh, rekursif masukkan ke kiri
-            Left(P) = Insert(Left(P), X);
+            Left(P) = InsertT(Left(P), X);
         }
         return P;
     }
@@ -139,7 +139,7 @@ void PrintTree(BinTree P, char tab[]) {
 
     if (!IsEmptyT(P)) {
         // Cetak identasi saat ini diikuti data dari akar/node
-        printf("%s%c\n", tab, Info(P));
+        printf("%s%s\n", tab, Info(P));
 
         strcpy(tempTab, tab);
         strcat(tempTab, "---");
@@ -469,11 +469,12 @@ BinTree InsSearch(BinTree *P, infotype X[31]) {
         return *P;
     }
     
-    if (X < Info(*P)) {
-        return InsSearch(&Left(*P), X);  // Lempar ke kiri jika lebih kecil
-    } else if (X > Info(*P)) {
-        return InsSearch(&Right(*P), X); // Lempar ke kanan jika lebih besar
-    }
+    if (strcmp(X, Info(*P)) < 0){
+    	InsSearch(&Left(*P), X);
+	}
+	else if (strcmp(X, Info(*P)) > 0){
+		InsSearch(&Right(*P), X);
+	}
     
     return *P; // Jika ternyata X sudah ada (tidak boleh duplikat di BST)
 }
