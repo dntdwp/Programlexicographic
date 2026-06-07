@@ -41,7 +41,7 @@ int main(){
 }
 
 
-void isiBST(const char *FILENAME, BinTree *KAMUS){
+void isiBST(const char *FILENAME, BinTree *KAMUS){ // ngisi bst pake kamus yang ada
 	infotype kata[31];
 	FILE *f = fopen(FILENAME,"r");
 	if (f == NULL) {
@@ -53,7 +53,7 @@ void isiBST(const char *FILENAME, BinTree *KAMUS){
 	}
 }
 
-void carisuggestion(BinTree P, char PREFIX[31], queue *Q) {
+void carisuggestion(BinTree P, char PREFIX[31], queue *Q) { // buat nyari suggestion yang cocok sama prefix yang diinput
     if (IsEmptyT(P)) {
         return;
     }
