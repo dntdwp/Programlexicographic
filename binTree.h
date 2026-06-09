@@ -187,6 +187,8 @@ void DelBTree(BinTree *P, infotype X[31]);
 /*Huffman*/
 void CetakKodeHuffman(BinTree root, int jalur[], int kedalaman);
 
+// prosedure untuk mengisi bintree dari inputan kamus
+void isiBST(const char *FILENAME, BinTree *KAMUS);
 
 #endif
 

@@ -550,3 +550,16 @@ void CetakKodeHuffman(BinTree root, int jalur[], int kedalaman) {
         printf("\n");
     }
 }
+
+
+void isiBST(const char *FILENAME, BinTree *KAMUS){ // ngisi bst pake kamus yang ada
+	infotype kata[31];
+	FILE *f = fopen(FILENAME,"r");
+	if (f == NULL) {
+        printf("Kamus Tidak di Temukan.\n");
+        return;
+    }	
+    while (fscanf(f, "%s", kata)!= EOF){
+    	InsSearch(KAMUS, kata);
+	}
+}
