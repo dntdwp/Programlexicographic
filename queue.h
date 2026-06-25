@@ -34,5 +34,8 @@ void InsertQ(queue *Q, infotypeQ data);
 void PrintQueue(queue Q);
 addressQ Alokasi(infotypeQ X);
 void Dealokasi(addressQ *P);
+int CountQ(queue Q);
+int GetSuggestionByIndex(queue Q, int index, char hasil[31]);
+void PrintKalimat(queue Q);
 
 #endif

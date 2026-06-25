@@ -96,19 +96,67 @@ void Delete(queue *Q, infotypeQ data) {
     }
 }
 
-void PrintQueue(queue Q) {
+void PrintQueue(queue Q){
     // Penelusuran selalu dimulai dari antrian terdepan (Front)
-    addressQ P = Front(Q); 
-    
-    if (IsEmptyQ(Q) == TRUE) {
+    addressQ P = Front(Q);
+
+    if (IsEmptyQ(Q) == TRUE){
         printf("Queue Kosong\n");
-    } else {
-        printf("[ ");
-        while (P != NULL) {
-            // Cetak data. Karena infotypeQ adalah char[31], gunakan %s
-            printf("%s ", InfoQ(P)); 
+    }
+    else{
+        int no = 1;
+        while (P != NULL){
+            // Cetak data dengan format nomor urut
+            printf("%d. %s\n", no, InfoQ(P));
             P = Next(P);
+            no++;
         }
-        printf("]\n");
+    }
+}
+
+int CountQ(queue Q){
+    addressQ P = Front(Q);
+    int count = 0;
+
+    while (P != NULL){
+        count++;
+        P = Next(P);
+    }
+
+    return count;
+}
+
+int GetSuggestionByIndex(queue Q, int index, char hasil[31]){
+    addressQ P = Front(Q);
+    int no = 1;
+
+    while (P != NULL){
+        if (no == index){
+            strcpy(hasil, InfoQ(P));
+            return 1;
+        }
+        P = Next(P);
+        no++;
+    }
+    return 0;
+}
+
+void PrintKalimat(queue Q){
+    // Penelusuran selalu dimulai dari antrian terdepan (Front)
+    addressQ P = Front(Q);
+
+    if (IsEmptyQ(Q) == TRUE){
+        printf("Queue Kosong\n");
+    }
+    else{
+        while (P != NULL){
+            printf("%s", InfoQ(P));
+            P = Next(P);
+            if (P != NULL)
+            {
+                printf(" "); // spasi antar kata, kecuali kata terakhir
+            }
+        }
+        printf("\n");
     }
 }
