@@ -31,11 +31,11 @@ void setRear(queue *Q) {
     Rear(*Q) = NULL;
 }
 
-addressQ Alokasi(infotype X[31]) {
+addressQ Alokasi(infotypeQ X) {
     // Meminta ruang memori untuk satu node list antrian
     addressQ P = (addressQ)malloc(sizeof(ElmtList));
     if (P != NULL) {
-        strcpy (Info(P),X);      // Isi node dengan karakter X
+        strcpy(InfoQ(P), X);      // Isi node dengan string X
         Next(P) = NULL;   // Pointer next default ke NULL
     }
     return P;
@@ -48,7 +48,7 @@ void Dealokasi(addressQ *P) {
     *P = NULL; 
 }
 
-void InsertQ(queue *Q, infotype data[31]) {
+void InsertQ(queue *Q, infotypeQ data) {
     // 1. Buat node baru untuk data yang akan antre
     addressQ P = Alokasi(data);
     
@@ -70,7 +70,7 @@ void InsertQ(queue *Q, infotype data[31]) {
     }
 }
 
-void Delete(queue *Q, infotype *data[31]) {
+void Delete(queue *Q, infotypeQ data) {
     addressQ P; // Variabel sementara untuk memegang node yang akan dihapus
     
     if (IsEmptyQ(*Q) == FALSE) {
@@ -78,7 +78,7 @@ void Delete(queue *Q, infotype *data[31]) {
         P = Front(*Q);
         
         // 2. Salin nilainya untuk dikembalikan ke pemanggil fungsi
-        strcpy(data, Info(P));
+        strcpy(data, InfoQ(P));
         
         // 3. Geser antrian depan ke orang di belakangnya
         Front(*Q) = Next(Front(*Q));
@@ -105,8 +105,8 @@ void PrintQueue(queue Q) {
     } else {
         printf("[ ");
         while (P != NULL) {
-            // Cetak data. Karena infotype di queue.h adalah 'char', gunakan %c
-            printf("%s ", Info(P)); 
+            // Cetak data. Karena infotypeQ adalah char[31], gunakan %s
+            printf("%s ", InfoQ(P)); 
             P = Next(P);
         }
         printf("]\n");

@@ -5,28 +5,29 @@
 #include "binTree.h"
 #include "boolean2.h"
 
-BinTree InsertT(BinTree P, char X) {
+BinTree InsertT(BinTree P, infotype X, infotype S) {
 
     if (IsEmptyT(P)) {
-        return AlokasiTree(X);
+        return AlokasiTree(X, S);
     } else {
         
         if (Left(P) == Nil) {
-            Left(P) = AlokasiTree(X);
+            Left(P) = AlokasiTree(X, S);
         } else if (Right(P) == Nil) {
-            Right(P) = AlokasiTree(X);
+            Right(P) = AlokasiTree(X, S);
         } else {
             // Jika kedua cabang penuh, rekursif masukkan ke kiri
-            Left(P) = InsertT(Left(P), X);
+            Left(P) = InsertT(Left(P), X, S);
         }
         return P;
     }
 }
 
-addressT AlokasiTree(infotype X[31]){
+addressT AlokasiTree(infotype X, infotype S){
     addressT P = (addressT)malloc(sizeof(ElmtNode));
     if (P != Nil) {
         strcpy(Info(P), X);
+        strcpy(Sinonim(P), S);
         Left(P) = Nil;
         Right(P) = Nil;
         Count(P) = 0;
@@ -42,10 +43,6 @@ void CreateEmpty(BinTree *P){
     *P = Nil;
 }
 
-infotype GetAkar(BinTree P){
-    return Info(P);
-}
-
 BinTree GetLeft(BinTree P){
     return Left(P);
 }
@@ -56,8 +53,8 @@ BinTree GetRight(BinTree P){
 
 /* ******** KONSTRUKTOR ************ */
 
-BinTree Tree(infotype X[31], BinTree L, BinTree R){
-    addressT P = AlokasiTree(X);
+BinTree Tree(infotype X, infotype S, BinTree L, BinTree R){
+    addressT P = AlokasiTree(X, S);
     if (P != Nil) {
         Left(P) = L;
         Right(P) = R;
@@ -65,24 +62,27 @@ BinTree Tree(infotype X[31], BinTree L, BinTree R){
     return P;
 }
 
-void MakeTree(infotype X[31], BinTree L, BinTree R, BinTree *P) {
-    *P = Tree(X, L, R);
+void MakeTree(infotype X, infotype S, BinTree L, BinTree R, BinTree *P) {
+    *P = Tree(X, S, L, R);
 }
 
 void BuildTree(BinTree *P) {
-    infotype X[31];
+    infotype X;
+    infotype S;
     
-    printf("Masukkan nilai node (ketik '.' untuk Nil/Kosong): ");
-    scanf(" %c", &X);
-    if (X == '.') {
+    printf("Masukkan kata utama (ketik '.' untuk Nil/Kosong): ");
+    scanf(" %s", X);
+    if (strcmp(X, ".") == 0) {
         *P = Nil;
     } else {
-        *P = AlokasiTree(X);
+        printf("Masukkan sinonim untuk '%s': ", X);
+        scanf(" %s", S);
+        *P = AlokasiTree(X, S);
         if (*P != Nil) {
-            printf("--- Masuk ke Subpohon KIRI dari '%c' ---\n", X);
+            printf("--- Masuk ke Subpohon KIRI dari '%s' ---\n", X);
             BuildTree(&Left(*P));
             
-            printf("--- Masuk ke Subpohon KANAN dari '%c' ---\n", X);
+            printf("--- Masuk ke Subpohon KANAN dari '%s' ---\n", X);
             BuildTree(&Right(*P));
         }
     }
@@ -110,7 +110,7 @@ boolean IsBiner(BinTree P) {
 void Preorder(BinTree P) {
     
     if (!IsEmptyT(P)) {
-        printf("%c ", Info(P));   // Proses Akar
+        printf("[%s - %s] ", Info(P), Sinonim(P));   // Proses Akar
         Preorder(Left(P));        // Jelajahi Subpohon Kiri
         Preorder(Right(P));       // Jelajahi Subpohon Kanan
     }
@@ -119,7 +119,7 @@ void Preorder(BinTree P) {
 void Inorder(BinTree P) {
     if (!IsEmptyT(P)) {
         Inorder(Left(P));         // Jelajahi Subpohon Kiri
-        printf("%c ", Info(P));   // Proses Akar
+        printf("[%s - %s] ", Info(P), Sinonim(P));   // Proses Akar
         Inorder(Right(P));        // Jelajahi Subpohon Kanan
     }
 }
@@ -129,7 +129,7 @@ void Postorder(BinTree P) {
     if (!IsEmptyT(P)) {
         Postorder(Left(P));        // Jelajahi Subpohon Kiri
         Postorder(Right(P));       // Jelajahi Subpohon Kanan
-        printf("%c ", Info(P));    // Proses Akar
+        printf("[%s - %s] ", Info(P), Sinonim(P));    // Proses Akar
     }
 }
 
@@ -139,7 +139,7 @@ void PrintTree(BinTree P, char tab[]) {
 
     if (!IsEmptyT(P)) {
         // Cetak identasi saat ini diikuti data dari akar/node
-        printf("%s%s\n", tab, Info(P));
+        printf("%s[%s - %s]\n", tab, Info(P), Sinonim(P));
 
         strcpy(tempTab, tab);
         strcat(tempTab, "---");
@@ -152,12 +152,12 @@ void PrintTree(BinTree P, char tab[]) {
 
 /* ************ SEARCH **************** */
 
-boolean Search(BinTree P, infotype X[31]) {
+boolean Search(BinTree P, infotype X) {
     /* Mengirimkan true jika ada node dari P yang bernilai X */
     if (IsEmptyT(P)) {
         return FALSE;
     }
-    if (strcmp(Info(P), X)) {
+    if (strcmp(Info(P), X) == 0) {
         return TRUE;
     }
     // Cari di subpohon kiri ATAU subpohon kanan
@@ -213,13 +213,13 @@ boolean IsSkewRight(BinTree P) {
     return IsSkewRight(Right(P));
 }
 
-int Level(BinTree P, infotype X[31]) {
+int Level(BinTree P, infotype X) {
 
     if (IsEmptyT(P)) {
         return 0;
     }
 
-    if (strcmp(Info(P), X)) {
+    if (strcmp(Info(P), X) == 0) {
         return 1;
     }
     
@@ -240,45 +240,45 @@ int Level(BinTree P, infotype X[31]) {
 
 /* ********* OPERASI LAIN ********* */
 
-void AddDaunTerkiri(BinTree *P, infotype X[31]) {
+void AddDaunTerkiri(BinTree *P, infotype X, infotype S) {
 
     if (IsEmptyT(*P)) {
-        *P = AlokasiTree(X);
+        *P = AlokasiTree(X, S);
     } else {
-        AddDaunTerkiri(&Left(*P), X);
+        AddDaunTerkiri(&Left(*P), X, S);
     }
 }
 
-void AddDaun(BinTree *P, infotype X[31], infotype Y, boolean InputKiri) {
+void AddDaun(BinTree *P, infotype X, infotype Y, infotype SY, boolean InputKiri) {
 
     if (IsEmptyT(*P)) {
         return; // Jika pohon kosong, tidak ada parent X yang bisa dicari
     }
 
     // Jika ketemu node parent-nya (X)
-    if (Info(*P) == X) {
+    if (strcmp(Info(*P), X) == 0) {
         if (InputKiri) {
             if (Left(*P) == Nil) {
-                Left(*P) = AlokasiTree(Y);
+                Left(*P) = AlokasiTree(Y, SY);
             } else {
-                printf("Gagal: Anak kiri dari %c sudah terisi!\n", X);
+                printf("Gagal: Anak kiri dari %s sudah terisi!\n", X);
             }
         } else {
             if (Right(*P) == Nil) {
-                Right(*P) = AlokasiTree(Y);
+                Right(*P) = AlokasiTree(Y, SY);
             } else {
-                printf("Gagal: Anak kanan dari %c sudah terisi!\n", X);
+                printf("Gagal: Anak kanan dari %s sudah terisi!\n", X);
             }
         }
         return;
     }
 
     // Jika belum ketemu, cari ke cabang kiri dan kanan
-    AddDaun(&Left(*P), X, Y, InputKiri);
-    AddDaun(&Right(*P), X, Y, InputKiri);
+    AddDaun(&Left(*P), X, Y, SY, InputKiri);
+    AddDaun(&Right(*P), X, Y, SY, InputKiri);
 }
 
-void DelDaunTerkiri(BinTree *P, infotype *X[31]) {
+void DelDaunTerkiri(BinTree *P, infotype X) {
 
     if (IsEmptyT(*P)) {
         return;
@@ -286,7 +286,7 @@ void DelDaunTerkiri(BinTree *P, infotype *X[31]) {
 
     // Kondisi dasar: Jika ini adalah daun (tidak punya anak sama sekali)
     if (Left(*P) == Nil && Right(*P) == Nil) {
-        *X = Info(*P); // Ambil infonya sebelum dihapus
+        strcpy(X, Info(*P)); // Ambil infonya sebelum dihapus
         free(*P);      // DeAlokasiTree memori
         *P = Nil;      // Set pointer parent-nya menjadi Nil
         return;
@@ -301,7 +301,7 @@ void DelDaunTerkiri(BinTree *P, infotype *X[31]) {
     }
 }
 
-void DelDaun(BinTree *P, infotype X[31]) {
+void DelDaun(BinTree *P, infotype X) {
     /* I.S   : P tidak kosong; X adalah salah satu daun */
     /* F.S   : Node X dihapus dari P jika terbukti dia adalah daun */
     if (IsEmptyT(*P)) {
@@ -309,12 +309,12 @@ void DelDaun(BinTree *P, infotype X[31]) {
     }
 
     // Cek apakah node saat ini mengandung info X DAN dia beneran daun
-    if (Info(*P) == X) {
+    if (strcmp(Info(*P), X) == 0) {
         if (Left(*P) == Nil && Right(*P) == Nil) {
             free(*P);
             *P = Nil;
         } else {
-            printf("Gagal: %c bukan sebuah simpul daun!\n", X);
+            printf("Gagal: %s bukan sebuah simpul daun!\n", X);
         }
         return;
     }
@@ -333,7 +333,7 @@ ListOfNode MakeListDaun(BinTree P) {
 
     // Jika ketemu daun, buat node list baru dengan cabang kiri dan kanan diset Nil
     if (Left(P) == Nil && Right(P) == Nil) {
-        addressT nodeBaru = AlokasiTree(Info(P));
+        addressT nodeBaru = AlokasiTree(Info(P), Sinonim(P));
         return nodeBaru; 
     }
 
@@ -363,7 +363,7 @@ ListOfNode MakeListPreoder(BinTree P) {
     }
 
     // 1. AlokasiTree untuk Akar saat ini
-    addressT akarList = AlokasiTree(Info(P));
+    addressT akarList = AlokasiTree(Info(P), Sinonim(P));
     
     // 2. Rekursif buat list dari subpohon kiri dan kanan
     ListOfNode leftList = MakeListPreoder(Left(P));
@@ -391,7 +391,7 @@ ListOfNode MakeListLevel(BinTree P, int N) {
 
     // Kondisi dasar: Jika sudah mencapai level target (N == 1 karena akar dimulai dari level 1)
     if (N == 1) {
-        return AlokasiTree(Info(P));
+        return AlokasiTree(Info(P), Sinonim(P));
     }
 
     // Rekursif cari ke level bawahnya (N dikurangi 1)
@@ -418,7 +418,8 @@ BinTree BuildBalanceTree(int n) {
     if (n <= 0) {
         return Nil;
     } else {
-        infotype X[31];
+        infotype X;
+        infotype S;
         int nL, nR;
         addressT P;
 
@@ -427,11 +428,13 @@ BinTree BuildBalanceTree(int n) {
         nR = n - nL - 1;  // Sisa node untuk subpohon kanan (dikurangi 1 untuk akar)
 
         // 2. Baca input data dari user untuk node/akar saat ini
-        printf("Masukkan nilai node untuk Balance Tree: ");
-        scanf(" %c", &X);
+        printf("Masukkan kata utama untuk Balance Tree: ");
+        scanf(" %s", X);
+        printf("Masukkan sinonim untuk '%s': ", X);
+        scanf(" %s", S);
 
         // 3. AlokasiTreekan akar saat ini
-        P = AlokasiTree(X);
+        P = AlokasiTree(X, S);
         if (P != Nil) {
             // 4. Bangun subpohon kiri dan kanan secara rekursif sesuai jatah nL dan nR
             Left(P) = BuildBalanceTree(nL);
@@ -444,51 +447,51 @@ BinTree BuildBalanceTree(int n) {
 
 /* ************** TERHADAP BINARY SEARCH TREE *************** */
 
-boolean BSearch(BinTree P, infotype X[31]) {
+boolean BSearch(BinTree P, infotype X) {
     /* Mengirimkan true jika ada node dari P yang bernilai X pada BST */
     if (IsEmptyT(P)) {
         return FALSE;
     }
-    if (strcmp(Info(P), X)) {
+    if (strcmp(Info(P), X) == 0) {
         return TRUE;
     }
     
     // Memanfaatkan sifat BST untuk mempercepat pencarian (efisien O(log n))
-    if (X < Info(P)) {
+    if (strcmp(X, Info(P)) < 0) {
         return BSearch(Left(P), X);  // Sesuai aturan, nilai kecil pasti di kiri
     } else {
         return BSearch(Right(P), X); // Nilai besar pasti di kanan
     }
 }
 
-BinTree InsSearch(BinTree *P, infotype X[31]) {
+BinTree InsSearch(BinTree *P, infotype X, infotype S) {
     /* Menghasilkan sebuah pohon Binary Search Tree P dengan tambahan X. */
     /* Belum ada simpul P yang bernilai X. */
     if (IsEmptyT(*P)) {
-        *P = AlokasiTree(X);
+        *P = AlokasiTree(X, S);
         return *P;
     }
     
     if (strcmp(X, Info(*P)) < 0){
-    	InsSearch(&Left(*P), X);
+    	InsSearch(&Left(*P), X, S);
 	}
 	else if (strcmp(X, Info(*P)) > 0){
-		InsSearch(&Right(*P), X);
+		InsSearch(&Right(*P), X, S);
 	}
     
     return *P; // Jika ternyata X sudah ada (tidak boleh duplikat di BST)
 }
 
-void DelBTree(BinTree *P, infotype X[31]) {
+void DelBTree(BinTree *P, infotype X) {
 
     if (IsEmptyT(*P)) {
         return;
     }
 
     // 1. Cari dulu posisi node X yang mau dihapus
-    if (X < Info(*P)) {
+    if (strcmp(X, Info(*P)) < 0) {
         DelBTree(&Left(*P), X);
-    } else if (X > Info(*P)) {
+    } else if (strcmp(X, Info(*P)) > 0) {
         DelBTree(&Right(*P), X);
     } 
     // 2. Jika node X sudah ditemukan (Info(*P) == X)
@@ -517,6 +520,7 @@ void DelBTree(BinTree *P, infotype X[31]) {
             
             // Salin nilai successor ke node yang ingin dihapus
             strcpy(Info(*P), Info(successor));
+            strcpy(Sinonim(*P), Sinonim(successor));
             
             // Hapus node successor asli yang nilainya baru saja kita salin tadi
             DelBTree(&Right(*P), Info(successor));
@@ -543,7 +547,7 @@ void CetakKodeHuffman(BinTree root, int jalur[], int kedalaman) {
 
     // Jika sampai di DAUN (Leaf), cetak karakter dan kode binernya
     if (Left(root) == Nil && Right(root) == Nil) {
-        printf("  Huruf '%c' | Frekuensi: %2d | Kode: ", Info(root), Count(root));
+        printf("  Kata '%s' | Frekuensi: %2d | Kode: ", Info(root), Count(root));
         for (int i = 0; i < kedalaman; i++) {
             printf("%d", jalur[i]);
         }
@@ -553,13 +557,58 @@ void CetakKodeHuffman(BinTree root, int jalur[], int kedalaman) {
 
 
 void isiBST(const char *FILENAME, BinTree *KAMUS){ // ngisi bst pake kamus yang ada
-	infotype kata[31];
+	char line[1024];
+	infotype kata;
+	infotype sinonim;
 	FILE *f = fopen(FILENAME,"r");
 	if (f == NULL) {
         printf("Kamus Tidak di Temukan.\n");
         return;
-    }	
-    while (fscanf(f, "%s", kata)!= EOF){
-    	InsSearch(KAMUS, kata);
+    }
+    while (fgets(line, sizeof(line), f) != NULL){
+    	// Skip baris kosong
+    	if (line[0] == '\n' || line[0] == '\r' || line[0] == '\0') continue;
+
+    	// Cari koma pertama sebagai pemisah kata utama dan sinonim
+    	char *comma1 = strchr(line, ',');
+    	if (comma1 == NULL) continue; // Skip baris tanpa koma
+
+    	// Ambil kata utama: kata pertama saja (sebelum spasi atau koma)
+    	char *start = line;
+    	while (*start == ' ') start++; // trim spasi depan
+
+    	int i = 0;
+    	while (start[i] != '\0' && start[i] != ',' && start[i] != ' '
+    	       && start[i] != '\n' && start[i] != '\r' && i < 30) {
+    		kata[i] = start[i];
+    		i++;
+    	}
+    	kata[i] = '\0';
+
+    	if (strlen(kata) == 0) continue;
+
+    	// Ambil sinonim: token kedua setelah koma pertama (di-trim)
+    	char *afterComma = comma1 + 1;
+    	while (*afterComma == ' ') afterComma++; // trim spasi depan
+
+    	i = 0;
+    	while (afterComma[i] != '\0' && afterComma[i] != ','
+    	       && afterComma[i] != '\n' && afterComma[i] != '\r' && i < 30) {
+    		sinonim[i] = afterComma[i];
+    		i++;
+    	}
+    	sinonim[i] = '\0';
+
+    	// Trim spasi belakang dari sinonim
+    	int len = strlen(sinonim);
+    	while (len > 0 && sinonim[len-1] == ' ') {
+    		sinonim[len-1] = '\0';
+    		len--;
+    	}
+
+    	if (strlen(sinonim) == 0) continue;
+
+    	InsSearch(KAMUS, kata, sinonim);
 	}
+	fclose(f);
 }

@@ -5,13 +5,12 @@
 #include <string.h>
 #include <conio.h>
 
-void isiBST(const char *FILENAME, BinTree *KAMUS);
-void carisuggestion(BinTree P, char PREFIX[], queue *Q);
+void carisuggestion(BinTree P, char PREFIX[31], queue *Q);
 int TampilSuggestion(queue Q, char daftar[100][31]);
 
 int main(){
 	int pilihan;
-	const char *filename = "kamus.txt";
+	const char *filename = "Tesaurus-BahasaIndonesia.txt";
 	char prefix[31];
 	BinTree kamus;
 	queue hasil;
@@ -22,6 +21,7 @@ int main(){
 	do{
 		printf("\n1. Mencari Prefix");
 		printf("\n2. Mencari Sinonim");
+		printf("\n3. Cetak Pohon");
 		printf("\n0. Keluar\n");
 		printf("Masukan Pilihan: ");
 		scanf("%d", &pilihan);
