@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "boolean2.h"
+#include "queue.h"
 
 #define Nil NULL
 #define Info(P)    (P)->info
@@ -189,6 +190,9 @@ void CetakKodeHuffman(BinTree root, int jalur[], int kedalaman);
 
 // prosedure untuk mengisi bintree dari inputan kamus
 void isiBST(const char *FILENAME, BinTree *KAMUS);
+
+void carisuggestion(BinTree P, char PREFIX[31], queue *Q);
+void CariSinonim(BinTree P, char kata[31]);
 
 #endif
 

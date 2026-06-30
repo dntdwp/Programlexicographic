@@ -612,3 +612,50 @@ void isiBST(const char *FILENAME, BinTree *KAMUS){ // ngisi bst pake kamus yang 
 	}
 	fclose(f);
 }
+
+void carisuggestion(BinTree P, char PREFIX[31], queue *Q)
+{
+    if (IsEmptyT(P))
+        return;
+
+    // Inorder traversal: kiri -> proses -> kanan
+    carisuggestion(Left(P), PREFIX, Q);
+
+    // Cek apakah kata cocok dengan prefix
+    if (strncmp(Info(P), PREFIX, strlen(PREFIX)) == 0)
+    {
+        InsertQ(Q, Info(P));
+    }
+
+    // Optimasi: stop jika sudah melewati range prefix di BST
+    if (strcmp(Info(P), PREFIX) > 0 &&
+        strncmp(Info(P), PREFIX, strlen(PREFIX)) != 0)
+    {
+        return;
+    }
+
+    carisuggestion(Right(P), PREFIX, Q);
+}
+
+void CariSinonim(BinTree P, char kata[31])
+{
+    if (IsEmptyT(P))
+    {
+        printf("Kata \"%s\" tidak ditemukan.\n", kata);
+        return;
+    }
+    int compare = strcmp(kata, Info(P));
+    if (compare == 0)
+    {
+        printf("Kata    : %s\n", Info(P));
+        printf("Sinonim : %s\n", Sinonim(P));
+    }
+    else if (compare < 0)
+    {
+        CariSinonim(Left(P), kata);
+    }
+    else
+    {
+        CariSinonim(Right(P), kata);
+    }
+}
