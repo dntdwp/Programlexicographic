@@ -579,7 +579,7 @@ void isiBST(const char *FILENAME, BinTree *KAMUS){ // ngisi bst pake kamus yang 
 
     	int i = 0;
     	while (start[i] != '\0' && start[i] != ',' && start[i] != ' '
-    	       && start[i] != '\n' && start[i] != '\r' && i < 30) {
+    	       && start[i] != '\n' && start[i] != '\r' && i < 1000) {
     		kata[i] = start[i];
     		i++;
     	}
@@ -592,8 +592,8 @@ void isiBST(const char *FILENAME, BinTree *KAMUS){ // ngisi bst pake kamus yang 
     	while (*afterComma == ' ') afterComma++; // trim spasi depan
 
     	i = 0;
-    	while (afterComma[i] != '\0' && afterComma[i] != ','
-    	       && afterComma[i] != '\n' && afterComma[i] != '\r' && i < 30) {
+    	while (afterComma[i] != '\0' 
+    	       && afterComma[i] != '\n' && afterComma[i] != '\r' && i < 1000) {
     		sinonim[i] = afterComma[i];
     		i++;
     	}

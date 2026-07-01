@@ -10,154 +10,134 @@ void CariSinonim(BinTree P, char kata[31]);
 void clearBuffer();
 
 // ====== MAIN ======
-int main(){
-	int pilihan;
-	const char *filename = "Tesaurus-BahasaIndonesia.txt";
-	BinTree kamus;
-	CreateEmpty(&kamus);
-	isiBST(filename, &kamus);
-	
-	do {
-		printf("\n=================================\n");
-		printf("   KAMUS LEKSIKOGRAFIS (BST)\n");
-		printf("=================================\n");
-		printf("1. Mencari Prefix (Auto-Suggestion)\n");
-		printf("2. Mencari Sinonim\n");
-		printf("3. Cetak Pohon\n");
-		printf("4. Susun Kalimat Dari Prefix\n");
-		printf("0. Keluar\n");
-		printf("Masukan Pilihan: ");
+int main() {
+  int pilihan;
+  const char *filename = "Tesaurus-BahasaIndonesia.txt";
+  BinTree kamus;
+  CreateEmpty(&kamus);
+  isiBST(filename, &kamus);
 
-		if (scanf("%d", &pilihan) != 1) {
-			clearBuffer();
-			printf("Input tidak valid.\n");
-			continue;
-		}
-		clearBuffer();
-		
-		if (pilihan == 1) {
-			// --- AUTO-SUGGESTION ---
-			char prefix[31];
-			printf("\nMasukkan prefix: ");
-			scanf("%s", prefix);
-			clearBuffer();
-			
-			// Cari semua kata yang cocok dengan prefix
-			queue hasil;
-			Initial(&hasil);
-			carisuggestion(kamus, prefix, &hasil);
-			
-			if (IsEmptyQ(hasil)) {
-				printf("Tidak ditemukan kata dengan prefix \"%s\".\n", prefix);
-			} else {
-				// Tampilkan daftar suggestion bernomor + simpan ke array
-				char daftar[100][31];
-				int jumlah = 0;
-				addressQ cur = Front(hasil);
-				
-				printf("\n--- Suggestion untuk \"%s\" ---\n", prefix);
-				while (cur != NULL && jumlah < 100) {
-					strcpy(daftar[jumlah], InfoQ(cur));
-					printf("  %d. %s\n", jumlah + 1, daftar[jumlah]);
-					cur = Next(cur);
-					jumlah++;
-				}
-				printf("Total: %d kata ditemukan.\n", jumlah);
-				
-				// Pilih kata untuk melihat sinonim
-				int pick;
-				printf("\nPilih nomor (1-%d) untuk lihat sinonim, 0 batal: ", jumlah);
-				if (scanf("%d", &pick) == 1 && pick >= 1 && pick <= jumlah) {
-					CariSinonim(kamus, daftar[pick - 1]);
-				}
-				clearBuffer();
-			}
-		}
+  do {
+    printf("\n=================================\n");
+    printf("   KAMUS LEKSIKOGRAFIS (BST)\n");
+    printf("=================================\n");
+    printf("1. Mencari Prefix\n");
+    printf("2. Mencari Sinonim\n");
+    printf("3. Cetak Pohon\n");
+    printf("4. Susun Kalimat Dari Prefix\n");
+    printf("0. Keluar\n");
+    printf("Masukan Pilihan: ");
 
-		else if (pilihan == 2){
-			// --- MENCARI SINONIM ---
-			char sinonim[31];
-			printf("Masukan Kata Yang Ingin Dicari Sinonimnya: ");
-			scanf("%s", sinonim);
-			CariSinonim(kamus, sinonim);
-		}
+    if (scanf("%d", &pilihan) != 1) {
+      clearBuffer();
+      printf("Input tidak valid.\n");
+      continue;
+    }
+    clearBuffer();
 
-		else if (pilihan == 3) {
-			printf("\n--- Isi Pohon BST ---\n");
-			PrintTree(kamus, "");
-		}
+    if (pilihan == 1) {
+      // --- AUTO-SUGGESTION ---
+      char prefix[31];
+      printf("\nMasukkan prefix: ");
+      scanf("%s", prefix);
+      clearBuffer();
 
-		else if (pilihan == 4){
-			queue kalimat;
-			Initial(&kalimat);
-			char lanjut = 'y';
+      // Cari semua kata yang cocok dengan prefix
+      queue hasil;
+      Initial(&hasil);
+      carisuggestion(kamus, prefix, &hasil);
 
-			while (lanjut == 'y'){
-				char prefix[31];
-				printf("\nMasukkan prefix: ");
-				scanf("%s", prefix);
+      if (IsEmptyQ(hasil)) {
+        printf("Tidak ditemukan kata dengan prefix \"%s\".\n", prefix);
+      } else {
+        printf("\n--- Suggestion untuk \"%s\" ---\n", prefix);
+        PrintQueue(hasil);
+        printf("Total: %d kata ditemukan.\n", CountQ(hasil));
+      }
+    }
 
-				// Cari semua kata yang cocok dengan prefix
-				queue hasil;
-				Initial(&hasil);
-				carisuggestion(kamus, prefix, &hasil);
+    else if (pilihan == 2) {
+      // --- MENCARI SINONIM ---
+      char sinonim[31];
+      printf("Masukan Kata Yang Ingin Dicari Sinonimnya: ");
+      scanf("%s", sinonim);
+      CariSinonim(kamus, sinonim);
+    }
 
-				if (IsEmptyQ(hasil)){
-					printf("Tidak ditemukan kata dengan prefix \"%s\".\n", prefix);
-				}
-				else{
-					PrintQueue(hasil);
-					int total = CountQ(hasil);
-					printf("Jumlah suggestion yang ditemukan : %d\n", total);
+    else if (pilihan == 3) {
+      printf("\n--- Isi Pohon BST ---\n");
+      PrintTree(kamus, "");
+    }
 
-					int pilihNo;
-					int valid = 0;
+    else if (pilihan == 4) {
+      queue kalimat;
+      Initial(&kalimat);
+      char lanjut = 'y';
 
-					while (!valid){
-						printf("\nPilih nomor kata untuk ditambahkan ke kalimat (0 untuk ganti prefix): ");
+      while (lanjut == 'y') {
+        char prefix[31];
+        printf("\nMasukkan prefix: ");
+        scanf("%s", prefix);
 
-						if (scanf("%d", &pilihNo) != 1){
-							clearBuffer();
-							printf("Input tidak valid.\n");
-							continue;
-						}
+        // Cari semua kata yang cocok dengan prefix
+        queue hasil;
+        Initial(&hasil);
+        carisuggestion(kamus, prefix, &hasil);
 
-						if (pilihNo == 0){
-							valid = 1;
-						}
-						else if (pilihNo < 1 || pilihNo > total){
-							printf("Nomor tidak valid. Pilih antara 0-%d.\n", total);
-						}
-						else{
-							char kataPilihan[31];
-							if (GetSuggestionByIndex(hasil, pilihNo, kataPilihan)){
-								InsertQ(&kalimat, kataPilihan);
-								printf("Kalimat sementara:\n");
-								PrintKalimat(kalimat);
-								valid = 1;
-							}
-						}
-					}
-				}
+        if (IsEmptyQ(hasil)) {
+          printf("Tidak ditemukan kata dengan prefix \"%s\".\n", prefix);
+        } else {
+          PrintQueue(hasil);
+          int total = CountQ(hasil);
+          printf("Jumlah suggestion yang ditemukan : %d\n", total);
 
-				printf("\nMasukkan prefix lagi? (y/n): ");
-				scanf(" %c", &lanjut);
-			}
+          int pilihNo;
+          int valid = 0;
 
-			printf("\n=== Kalimat akhir ===\n");
-			PrintKalimat(kalimat);
-		}
+          while (!valid) {
+            printf("\nPilih nomor kata untuk ditambahkan ke kalimat (0 untuk "
+                   "ganti prefix): ");
 
-	} while (pilihan != 0);
-	
-	printf("\nTerima kasih!\n");
-	return 0;
+            if (scanf("%d", &pilihNo) != 1) {
+              clearBuffer();
+              printf("Input tidak valid.\n");
+              continue;
+            }
+
+            if (pilihNo == 0) {
+              valid = 1;
+            } else if (pilihNo < 1 || pilihNo > total) {
+              printf("Nomor tidak valid. Pilih antara 0-%d.\n", total);
+            } else {
+              char kataPilihan[31];
+              if (GetSuggestionByIndex(hasil, pilihNo, kataPilihan)) {
+                InsertQ(&kalimat, kataPilihan);
+                printf("Kalimat sementara:\n");
+                PrintKalimat(kalimat);
+                valid = 1;
+              }
+            }
+          }
+        }
+
+        printf("\nMasukkan prefix lagi? (y/n): ");
+        scanf(" %c", &lanjut);
+      }
+
+      printf("\n=== Kalimat akhir ===\n");
+      PrintKalimat(kalimat);
+    }
+
+  } while (pilihan != 0);
+
+  printf("\nTerima kasih!\n");
+  return 0;
 }
 
 // ====== IMPLEMENTASI FUNGSI ======
 
 void clearBuffer() {
-	int c;
-	while ((c = getchar()) != '\n' && c != EOF);
+  int c;
+  while ((c = getchar()) != '\n' && c != EOF)
+    ;
 }
-

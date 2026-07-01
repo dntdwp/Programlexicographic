@@ -18,7 +18,7 @@
 #define Right(P)   (P)->right
 #define Count(P)   (P)->count
 
-typedef char infotype[31];
+typedef char infotype[1024];
 typedef struct tElmtNode *addressT;
 typedef struct tElmtNode {
 			infotype info;
