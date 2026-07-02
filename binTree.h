@@ -19,21 +19,33 @@
 #define Count(P)   (P)->count
 
 typedef char infotype[1024];
+
+typedef struct tNodeSinonim *addrSinonim;
+typedef struct tNodeSinonim {
+    infotype kata;
+    addrSinonim next;
+} NodeSinonim;
+
 typedef struct tElmtNode *addressT;
 typedef struct tElmtNode {
-			infotype info;
-			infotype sinonim;
-			addressT left;
-			addressT right;
-			int count;
-		} ElmtNode;
+    infotype info;
+    addrSinonim sinonim;
+    addressT left;
+    addressT right;
+    int count;
+} ElmtNode;
 
 typedef addressT BinTree;
 typedef addressT ListOfNode; /* List  yg elemennya adalah ElmtNode */ 
 
-BinTree InsertT(BinTree P, infotype X, infotype S);
+// Bantuan List Sinonim
+addrSinonim CopySinonimList(addrSinonim S);
+void FreeSinonim(addrSinonim S);
+void PrintSinonim(addrSinonim S);
 
-addressT AlokasiTree(infotype X, infotype S);
+BinTree InsertT(BinTree P, infotype X, addrSinonim S);
+
+addressT AlokasiTree(infotype X, addrSinonim S);
 /* Menghasilkan  address hasil AlokasiTree sebuah  Node 	*/
 /* Jika AlokasiTree berhasil, maka  address tidak NIl   	*/
 /* Info(P)=X, Sinonim(P)=S, Left(P)=Nil,Right(P)=Nil, dan Count(P)=0 	*/
@@ -52,11 +64,11 @@ BinTree GetRight(BinTree P);
 /* Mengirimkan anak kanan pohon biner P  */
 
 /* ******** KONSTRUKTOR ************ */
-BinTree Tree(infotype X, infotype S, BinTree L, BinTree R);
+BinTree Tree(infotype X, addrSinonim S, BinTree L, BinTree R);
 /* Menghasilkan sebuah pohon Biner dari A, L, dan R jika AlokasiTree berhasil */
 /* Menghasilkan pohon kosong Nil, jika AlokasiTree gagal 			  */
 
-void MakeTree(infotype X, infotype S, BinTree L, BinTree R, BinTree *P);
+void MakeTree(infotype X, addrSinonim S, BinTree L, BinTree R, BinTree *P);
 /* I.S   : Sembarang 	*/
 /* F.S   : Menghasilkan sebuah pohon biner P dari A,L,dan R, jika AlokasiTree */
 /*         berhasil; Menghasilkan pohon P yang kosong jika AlokasiTree gagal  */
@@ -126,11 +138,11 @@ int Level(BinTree P, infotype X);
 /* kosong 	*/
 
 /* ********* OPERASI LAIN ********* */
-void AddDaunTerkiri(BinTree *P, infotype X, infotype S);
+void AddDaunTerkiri(BinTree *P, infotype X, addrSinonim S);
 /* I.S   : P boleh kosong 	*/
 /* F.S   : P bertambah simpulnya, dengan X sbg simpul daun terkiri */  		
 
-void AddDaun(BinTree *P, infotype X, infotype Y, infotype SY, boolean InputKiri);
+void AddDaun(BinTree *P, infotype X, infotype Y, addrSinonim SY, boolean InputKiri);
 /* I.S   : P boleh kosong 	*/
 /* F.S   : P bertambah simpulnya, dengan Y sbg anak kiri X 		*/
 /*	   jika kiri); atau sebagai anak kanan X (jika Not Kiri)	*/
@@ -176,7 +188,7 @@ BinTree BuildBalanceTree(int n);
 boolean BSearch(BinTree P, infotype X);
 /* Mengirimkan true jika ada node dari P yang bernilai X   */
 
-BinTree InsSearch(BinTree *P, infotype X, infotype S);
+BinTree InsSearch(BinTree *P, infotype X, addrSinonim S);
 /* Menghasilkan sebuah pohon Binary Search Tree P dengan tambahan */
 /* X. Belum ada simpul P yang bernilai X 			  */
 
