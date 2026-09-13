@@ -45,5 +45,6 @@ Total: X kata ditemukan.
 - Combining two ADTs (BST for storage, Queue for results)
 - File I/O + input validation in C
 
-## 👤 Author
-Denta Dwipawasesa — JTK'25 Polban, currently learning Go/Rust/C++
+## 👥 Authors
+- Denta Dwipawasesa ([@dntdwp](https://github.com/dntdwp)) — JTK'25 Polban, currently learning Go/Rust/C++
+- Iman ([@iimanexe](https://github.com/iimanexe))
