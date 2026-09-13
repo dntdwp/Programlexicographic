@@ -17,3 +17,33 @@ Coursework: Struktur Data dan Algoritma, JTK Politeknik Negeri Bandung.
 - Dataset: `Tesaurus-BahasaIndonesia.txt` (100 kata, max 31 char)
 
 ## 📁 Structure
+```
+main.c        # menu + UI loop
+binTree.c/h   # BST: insert, prefix search, print
+queue.c/h     # Queue: tampung suggestion & kalimat
+boolean2.h    # tipe boolean
+```
+
+## 🚀 How to Run
+```bash
+gcc main.c binTree.c queue.c -o kamus
+./kamus
+# Windows: kamus.exe
+```
+Pastikan `Tesaurus-BahasaIndonesia.txt` satu folder sama exe.
+
+Example:
+```
+1. Mencari Prefix
+Masukkan prefix: bela
+--- Suggestion untuk "bela" ---
+Total: X kata ditemukan.
+```
+
+## 🎓 What I Learned
+- BST insertion & in-order traversal for sorted autocomplete
+- Combining two ADTs (BST for storage, Queue for results)
+- File I/O + input validation in C
+
+## 👤 Author
+Denta Dwipawasesa — JTK'25 Polban, currently learning Go/Rust/C++
