@@ -46,5 +46,5 @@ Total: X kata ditemukan.
 - File I/O + input validation in C
 
 ## 👥 Authors
-- Denta Dwipawasesa ([@dntdwp](https://github.com/dntdwp)) — JTK'25 Polban, currently learning Go/Rust/C++
+- Denta Dwipawasesa ([@dntdwp](https://github.com/dntdwp))
 - Iman ([@iimanexe](https://github.com/iimanexe))
